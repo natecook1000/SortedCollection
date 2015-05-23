@@ -61,6 +61,11 @@ public struct SortedCollection<T: Comparable> : Printable, SortedCollectionType 
         return contents.count
     }
     
+    /// `true` iff the `SortedCollection` is empty.
+    public var isEmpty: Bool {
+        return contents.isEmpty
+    }
+    
     /// A string representation of the `SortedCollection`.
     public var description: String {
         return contents.description
