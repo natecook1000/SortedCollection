@@ -188,7 +188,7 @@ extension SortedCollection : Sliceable {
     
     /// Access the elements in the given range.
     public subscript(range: Range<Int>) -> SortedSlice<T> {
-        return SortedSlice(sortedSlice: contents[range])
+        return SortedSlice(contents[range])
     }
 }
 
@@ -198,7 +198,7 @@ extension SortedCollection : Sliceable {
 
 /// A slice of a `SortedCollection`.
 public struct SortedSlice<T: Comparable> : Printable, SortedCollectionType {
-    private var contents: Slice<T> = []
+    private var contents: ArraySlice<T> = []
     
     /// The number of elements the `SortedSlice` contains.
     public var count: Int {
@@ -215,16 +215,16 @@ public struct SortedSlice<T: Comparable> : Printable, SortedCollectionType {
     
     /// Create a new `SortedSlice` with the contents of a given sequence.
     public init<S : SequenceType where S.Generator.Element == T>(_ sequence: S) {
-        contents = Slice(sorted(sequence))
+        contents = ArraySlice(sorted(sequence))
     }
     
     /// Create a new `SortedSlice` with the given values.
     public init(values: T...) {
-        contents = Slice(sorted(values))
+        contents = ArraySlice(sorted(values))
     }
     
     /// Create a new `SortedSlice` using a slice of a parent `SortedCollection`s backing array.
-    private init(sortedSlice: Slice<T>) {
+    private init(sortedSlice: ArraySlice<T>) {
         contents = sortedSlice
     }
     
@@ -264,7 +264,7 @@ public struct SortedSlice<T: Comparable> : Printable, SortedCollectionType {
     
     /// Inserts the contents of a sequence into the `SortedSlice`.
     public mutating func insert<S: SequenceType where S.Generator.Element == T>(values: S) {
-        contents = Slice(sorted(contents + values))
+        contents = ArraySlice(sorted(contents + values))
     }
     
     /// Removes `value` from the collection if it exists.
@@ -326,7 +326,7 @@ extension SortedSlice : CollectionType {
 
 extension SortedSlice : ArrayLiteralConvertible {
     public init(arrayLiteral elements: T...) {
-        self.contents = Slice(sorted(elements))
+        self.contents = ArraySlice(sorted(elements))
     }
 }
 
@@ -395,4 +395,3 @@ private func _insertionIndex<C: CollectionType, T: Comparable
     
     return c.endIndex
 }
-
