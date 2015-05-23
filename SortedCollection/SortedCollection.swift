@@ -178,6 +178,26 @@ extension SortedCollection : CollectionType {
     }
 }
 
+extension SortedCollection {
+    /// The first element, or `nil` if empty.
+    public var first: Element? {
+        if isEmpty {
+            return nil
+        }
+        
+        return contents[startIndex]
+    }
+    
+    /// The last element, or `nil` if empty.
+    public var last: Element? {
+        if isEmpty {
+            return nil
+        }
+        
+        return contents[endIndex - 1]
+    }
+}
+
 // MARK: ArrayLiteralConvertible
 
 extension SortedCollection : ArrayLiteralConvertible {
